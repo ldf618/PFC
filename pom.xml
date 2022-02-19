@@ -10,4 +10,17 @@
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+            <version>7.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.18</version>
+        </dependency>
+    </dependencies>
 </project>
