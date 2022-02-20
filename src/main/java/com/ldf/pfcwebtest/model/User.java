@@ -1,8 +1,8 @@
 package com.ldf.pfcwebtest.model;
 
+import java.io.Serializable;
 import javax.persistence.*;
 import javax.persistence.Id;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
@@ -11,15 +11,17 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 //javax.persistence
-@Entity
+@Entity(name = "Users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="class")
+@DiscriminatorValue("Users")
 
 //Lombok
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User {
+public class User implements Serializable{
 	@Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idUser;

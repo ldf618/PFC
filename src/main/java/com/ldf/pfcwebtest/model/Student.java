@@ -5,8 +5,8 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 //javax.persistence
-@Entity
-
+@Entity(name = "Students")
+@DiscriminatorValue("Students")
 //Lombok
 @NoArgsConstructor
 public class Student extends User {
