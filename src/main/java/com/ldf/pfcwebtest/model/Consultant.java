@@ -5,7 +5,8 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 //javax.persistence
-@Entity(name = "Consultants")
+@Entity
+
 @DiscriminatorValue("Consultants")
 
 //Lombok

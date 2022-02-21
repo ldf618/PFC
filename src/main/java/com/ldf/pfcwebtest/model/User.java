@@ -11,7 +11,8 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 //javax.persistence
-@Entity(name = "Users")
+@Entity
+@Table(name = "Users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="class")
 @DiscriminatorValue("Users")
