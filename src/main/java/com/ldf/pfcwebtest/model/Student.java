@@ -3,6 +3,7 @@ package com.ldf.pfcwebtest.model;
 import java.util.List;
 import javax.persistence.*;
 import lombok.Builder;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 //javax.persistence
@@ -10,14 +11,15 @@ import lombok.NoArgsConstructor;
 @DiscriminatorValue("Students")
 //Lombok
 @NoArgsConstructor
+@Setter
 public class Student extends User {
     
-    
+    /*
     @JoinTable(
         name = "rel_student_group",
         joinColumns = @JoinColumn(name = "FK_STUDENT", nullable = false),
         inverseJoinColumns = @JoinColumn(name="FK_GROUP", nullable = false)
-    )
+    )*/
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Group> groups;
 
