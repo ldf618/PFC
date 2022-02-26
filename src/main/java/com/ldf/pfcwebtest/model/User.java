@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class User implements Serializable{
 	@Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idUser;
+	private int id;
         
         @Column
         @NotNull

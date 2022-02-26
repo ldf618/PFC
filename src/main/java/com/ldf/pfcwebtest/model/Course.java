@@ -26,9 +26,12 @@ public class Course implements Serializable {
         @Column
         @NotNull
         @Size(min = 2, max = 50)
-	private String courseName;
+	private String name;
                 
         @Column
 	private double credits;
+        
+        @ManyToOne //(cascade = CascadeType.ALL)
+        private Degree degree;
 
 }

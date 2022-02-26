@@ -9,12 +9,9 @@ import com.ldf.pfcwebtest.model.Classroom;
 import com.ldf.pfcwebtest.model.Group;
 import com.ldf.pfcwebtest.model.Student;
 import com.ldf.pfcwebtest.persistence.util.JPASessionUtil;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.BeforeMethod;
@@ -65,13 +62,14 @@ public class GroupNGTest {
                 .userName("NSS111").userPassword("123456").build();
 //        em.persist(student1);
     
-        Student student2 =Student.studentBuilder().dni("22222222A").name("name2").surname1("surname12").surname2("surname22")
+        Student student2 =Student.studentBuilder().dni("22222222B").name("name2").surname1("surname12").surname2("surname22")
                 .userName("NSS222").userPassword("123456").build();
 //        em.persist(student2);
         
-        Student student3 =Student.studentBuilder().dni("33333333A").name("name3").surname1("surname13").surname2("surname23")
+        Student student3 =Student.studentBuilder().dni("33333333C").name("name3").surname1("surname13").surname2("surname23")
                 .userName("NSS333").userPassword("123456").build();        
 //        em.persist(student3);
+
         
         LinkedList <Student> studentList = new LinkedList<>(Arrays.asList(student1,student2,student3));
                 
@@ -84,8 +82,8 @@ public class GroupNGTest {
                 .build();
         
         student1.setGroups(Arrays.asList(group));
-        student2.setGroups(Arrays.asList(group));
-        student3.setGroups(Arrays.asList(group));
+        //student2.setGroups(Arrays.asList(group));
+        //student3.setGroups(Arrays.asList(group));
         
         em.persist(group);
         em.getTransaction().commit();        

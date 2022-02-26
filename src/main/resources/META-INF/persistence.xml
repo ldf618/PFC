@@ -10,6 +10,7 @@ xml/ns/persistence/persistence_2_0.xsd"
         <class>com.ldf.pfcwebtest.model.Group</class>
         <class>com.ldf.pfcwebtest.model.Course</class>
         <class>com.ldf.pfcwebtest.model.Classroom</class>
+        <class>com.ldf.pfcwebtest.model.Degree</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:./utiljpa"/>

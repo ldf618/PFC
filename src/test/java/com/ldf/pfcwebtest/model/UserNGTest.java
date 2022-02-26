@@ -41,13 +41,13 @@ public class UserNGTest {
         User user=
                 User.builder()
                 .dni("16232121J")
-                .idUser(1)
+                .id(1)
                 .name("Juan").surname1("Diez").surname2("Fuente")
                 .userName("JDF123")
                 .userPassword("123456")
                 .build();
         assertEquals(user.getDni(), "16232121J");
-        assertEquals(user.getIdUser(), 1);
+        assertEquals(user.getId(), 1);
         assertEquals(user.getName()+" "+user.getSurname1()+" "+user.getSurname2(),"Juan Diez Fuente");
         assertEquals(user.getUserName(), "JDF123");
         assertEquals(user.getUserPassword(), "123456");

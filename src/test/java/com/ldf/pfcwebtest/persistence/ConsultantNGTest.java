@@ -45,7 +45,7 @@ public class ConsultantNGTest {
         q.setParameter("dni", "16232121J");
         q.setParameter("type", Consultant.class);
         Consultant result = (Consultant)q.getSingleResult();
-        // si funciona Consultant result = em.find(Consultant.class, consultant.getIdUser());
+        // si funciona Consultant result = em.find(Consultant.class, consultant.getId());
         assertNotNull(result);
         assertEquals(result, consultant);
         em.remove(result);

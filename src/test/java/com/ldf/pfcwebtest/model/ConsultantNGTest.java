@@ -29,7 +29,7 @@ public class ConsultantNGTest {
                 .userPassword("123456")
                 .build();
         assertEquals(consultant.getDni(), "16232121J");
-        assertEquals(consultant.getIdUser(), 1);
+        assertEquals(consultant.getId(), 1);
         assertEquals(consultant.getName()+" "+consultant.getSurname1()+" "+consultant.getSurname2(),"Juan Diez Fuente");
         assertEquals(consultant.getUserName(), "JDF123");
         assertEquals(consultant.getUserPassword(), "123456");
