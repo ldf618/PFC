@@ -31,7 +31,7 @@ public class Course implements Serializable {
         @Column
 	private double credits;
         
-        @ManyToOne //(cascade = CascadeType.ALL)
+        @ManyToOne(cascade ={CascadeType.PERSIST})
         private Degree degree;
 
 }
