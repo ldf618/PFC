@@ -37,7 +37,8 @@ public class Degree implements Serializable{
         @Size(min=2, max=50)
 	private String name;
         
-        @OneToMany (mappedBy = "degree", fetch = FetchType.LAZY /*, orphanRemoval = true*/)
+        //cascade = CascadeType.PERSIST, orphanRemoval = true si eliminamos de la lista se elimina de la BD
+        @OneToMany (mappedBy = "degree", fetch = FetchType.LAZY , cascade = CascadeType.PERSIST, orphanRemoval = true)
         private List<Course> courses;
 	
 }

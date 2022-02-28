@@ -21,53 +21,55 @@ import org.testng.annotations.Test;
  * @author Lo
  */
 public class DegreeNGTest {
-
+    
     public DegreeNGTest() {
     }
+
     @AfterMethod
     public void cleanup() {
         doWithEntityManager((em) -> {
-            System.out.println("rows:"+em.createQuery("delete from Course").executeUpdate());
-            System.out.println("rows:"+em.createQuery("delete from Degree").executeUpdate());
+            System.out.println("rows:" + em.createQuery("delete from Course").executeUpdate());
+            System.out.println("rows:" + em.createQuery("delete from Degree").executeUpdate());
         });
     }
+
     @BeforeMethod
     public void populateData() throws Exception {
         doWithEntityManager((em) -> {
-        Degree degree
-                = Degree.builder()
-                        .name("Computer Science")
-                        .build();
-        Course course1
-                = Course.builder()
-                        .name("Mathematics 1")
-                        .credits(6d)
-                        .build();
-        Course course2
-                = Course.builder()
-                        .name("Computer Network 1")
-                        .credits(6d)
-                        .build();
-        Course course3
-                = Course.builder()
-                        .name("Physics 1")
-                        .credits(3d)
-                        .build();
-        Course course4
-                = Course.builder()
-                        .name("Programming 1")
-                        .credits(12d)
-                        .build();
-
-        course1.setDegree(degree);
-        course2.setDegree(degree);
-        course3.setDegree(degree);
-        course4.setDegree(degree);
-        
-        em.persist(course1);
-        em.persist(course2);
-        em.persist(course3);
-        em.persist(course4);
+            Degree degree
+                    = Degree.builder()
+                            .name("Computer Science")
+                            .build();
+            Course course1
+                    = Course.builder()
+                            .name("Mathematics 1")
+                            .credits(6d)
+                            .build();
+            Course course2
+                    = Course.builder()
+                            .name("Computer Network 1")
+                            .credits(6d)
+                            .build();
+            Course course3
+                    = Course.builder()
+                            .name("Physics 1")
+                            .credits(3d)
+                            .build();
+            Course course4
+                    = Course.builder()
+                            .name("Programming 1")
+                            .credits(12d)
+                            .build();
+            
+            course1.setDegree(degree);
+            course2.setDegree(degree);
+            course3.setDegree(degree);
+            course4.setDegree(degree);
+            
+            em.persist(course1);
+            em.persist(course2);
+            em.persist(course3);
+            em.persist(course4);
         });
     }
 
@@ -93,7 +95,7 @@ public class DegreeNGTest {
         em.close();
     }
 
-   /* @Test
+    /* @Test
     public void persistFullDegree() {
         EntityManager em = JPASessionUtil.getEntityManager();
         em.getTransaction().begin();
@@ -139,8 +141,7 @@ public class DegreeNGTest {
         em.getTransaction().commit();
         em.close();
     }*/
-
-    @Test
+    //@Test
     public void deleteDegree() {
         deleteCourseByName("Mathematics 1");
         deleteCourseByName("Computer Network 1");
@@ -149,27 +150,55 @@ public class DegreeNGTest {
         deleteDegreeByName("Computer Science");
         
     }
-
-    public void deleteDegreeByName(String name){
+    
+    @Test
+    public void queryDegree() {
         doWithEntityManager((var em) -> {
-            Degree degree = 
-                    em.createQuery("from Degree d where d.name = :name",Degree.class)
-                    .setParameter("name", name)
-                    .getSingleResult();
+            Degree degree
+                    = em.createQuery("from Degree d where d.name = :name", Degree.class)
+                            .setParameter("name", "Computer Science")
+                            .getSingleResult();
+            System.out.println("Degree: " + degree.getName());
+            degree.getCourses().stream().forEach((c) -> System.out.println(c.getName().concat("--")));                       
+           /* degree.getCourses().stream().forEach((c) -> {
+                                                         c.setDegree(null);
+                                                         em.persist(c);
+            });*/
+            //degree.getCourses().clear();
+            degree.getCourses().remove(1);
+            em.persist(degree);                
+        });
+        
+        doWithEntityManager((var em) -> {
+            Degree degree
+                    = em.createQuery("from Degree d where d.name = :name", Degree.class)
+                            .setParameter("name", "Computer Science")
+                            .getSingleResult();
+            System.out.println("Degree: " + degree.getName());
+            degree.getCourses().stream().forEach((c) -> System.out.println(c.getName().concat("--")));
+        });
+    }
+    
+    public void deleteDegreeByName(String name) {
+        doWithEntityManager((var em) -> {
+            Degree degree
+                    = em.createQuery("from Degree d where d.name = :name", Degree.class)
+                            .setParameter("name", name)
+                            .getSingleResult();
             em.remove(degree);
         });
     }    
-    public void deleteCourseByName(String name){
+
+    public void deleteCourseByName(String name) {
         doWithEntityManager((var em) -> {
-            Course course = 
-                    em.createQuery("from Course c where c.name = :name",Course.class)
-                    .setParameter("name", name)
-                    .getSingleResult();
+            Course course
+                    = em.createQuery("from Course c where c.name = :name", Course.class)
+                            .setParameter("name", name)
+                            .getSingleResult();
             em.remove(course);
         });
     }
     
-
     private void doWithEntityManager(Consumer<EntityManager> command) {
         EntityManager em = JPASessionUtil.getEntityManager();
         em.getTransaction().begin();
