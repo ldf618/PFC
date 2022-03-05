@@ -24,13 +24,13 @@ public class ConsultantNGTest {
                 Consultant.consultantBuilder()
                 .dni("16232121J")
                 .idUser(1)
-                .name("Juan").surname1("Diez").surname2("Fuente")
+                .firstName("Juan").surname1("Diez").surname2("Fuente")
                 .userName("JDF123")
                 .userPassword("123456")
                 .build();
         assertEquals(consultant.getDni(), "16232121J");
         assertEquals(consultant.getId(), 1);
-        assertEquals(consultant.getName()+" "+consultant.getSurname1()+" "+consultant.getSurname2(),"Juan Diez Fuente");
+        assertEquals(consultant.getFirstName()+" "+consultant.getSurname1()+" "+consultant.getSurname2(),"Juan Diez Fuente");
         assertEquals(consultant.getUserName(), "JDF123");
         assertEquals(consultant.getUserPassword(), "123456");
     }

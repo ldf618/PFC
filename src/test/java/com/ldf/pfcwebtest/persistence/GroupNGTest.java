@@ -74,7 +74,7 @@ public class GroupNGTest {
         LinkedList <Student> studentList = new LinkedList<>(Arrays.asList(student1,student2,student3));
                 
         Classroom classroom = Classroom.builder().name("classroom1").build();
-//        em.persist(classroom);
+        em.persist(classroom);
         Group group = 
                 Group.builder()
                 .name("Grupo 1").students(studentList)

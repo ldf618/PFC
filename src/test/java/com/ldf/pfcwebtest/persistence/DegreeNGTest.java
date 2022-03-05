@@ -164,9 +164,8 @@ public class DegreeNGTest {
                                                          c.setDegree(null);
                                                          em.persist(c);
             });*/
-            //degree.getCourses().clear();
-            degree.getCourses().remove(1);
-            em.persist(degree);                
+            degree.getCourses().clear();
+            //degree.getCourses().remove(1);
         });
         
         doWithEntityManager((var em) -> {
@@ -176,7 +175,10 @@ public class DegreeNGTest {
                             .getSingleResult();
             System.out.println("Degree: " + degree.getName());
             degree.getCourses().stream().forEach((c) -> System.out.println(c.getName().concat("--")));
+            degree.setName("Cloud Computing");
+             System.out.println("Degree: " + degree.getName());
         });
+        
     }
     
     public void deleteDegreeByName(String name) {

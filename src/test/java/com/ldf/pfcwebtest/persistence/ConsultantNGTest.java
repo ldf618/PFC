@@ -28,7 +28,7 @@ public class ConsultantNGTest {
         Consultant consultant =
                 Consultant.consultantBuilder()
                 .dni("16232121J")
-                .name("Juan").surname1("Diez").surname2("Fuente")
+                .firstName("Juan").surname1("Diez").surname2("Fuente")
                 .userName("JDF123")
                 .userPassword("123456")
                 .build();

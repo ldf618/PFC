@@ -31,7 +31,7 @@ public class User implements Serializable{
         @Column
         @NotNull
         @Size(min = 2, max = 50)
-	private String name;
+	private String firstName;
         
         @Column
         @Size(max = 50)
