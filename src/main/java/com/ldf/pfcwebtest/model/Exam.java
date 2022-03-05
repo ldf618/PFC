@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -49,6 +51,7 @@ public class Exam implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @NotNull
+    @Column(length = 25)
     private ExamType type;
 
     @Column //(columnDefinition = "DATE")
@@ -71,5 +74,6 @@ public class Exam implements Serializable {
     @ManyToOne (fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private Consultant consultant;
 
-//	  private List<ApartadoPlantilla> apartados;
+    @OneToMany (mappedBy = "exam", fetch = FetchType.LAZY , cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<ExamQuestion> examQuestions;
 }
