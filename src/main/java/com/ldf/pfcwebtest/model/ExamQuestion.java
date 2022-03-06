@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "examQuestions")
@@ -38,6 +39,7 @@ public class ExamQuestion implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
+    @ToString.Exclude
     //@NotNull
     @ManyToOne
     private Exam exam;

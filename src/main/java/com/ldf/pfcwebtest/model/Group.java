@@ -35,7 +35,7 @@ public class Group implements Serializable{
 	
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idGroup;
+	private int id;
         
         @Column
         @NotNull

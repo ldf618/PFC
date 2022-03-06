@@ -8,8 +8,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
+import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
@@ -18,24 +21,42 @@ import static org.testng.Assert.*;
  */
 public class ExamQuestionOptionNGTest {
 
+
     public ExamQuestionOptionNGTest() {
 
-        Consultant consultant
-                = Consultant.consultantBuilder()
-                        .dni("16232121J")
-                        .idUser(1)
-                        .firstName("Juan").surname1("Diez").surname2("Fuente")
-                        .userName("JDF123")
-                        .userPassword("123456")
-                        .build();
-        assertEquals(consultant.getDni(), "16232121J");
-        assertEquals(consultant.getId(), 1);
-        assertEquals(consultant.getFirstName() + " " + consultant.getSurname1() + " " + consultant.getSurname2(), "Juan Diez Fuente");
-        assertEquals(consultant.getUserName(), "JDF123");
-        assertEquals(consultant.getUserPassword(), "123456");
     }
 
-    public Exam CreateExam() {
+    @Test
+    public void TestExam(){
+       Exam exam = createExam();
+       System.out.println(exam);
+       
+       System.out.println(exam.getPublicationDate());
+        System.out.println(exam.getPublicationDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)));
+        System.out.println(exam.getPublicationDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
+        System.out.println(exam.getPublicationDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+        System.out.println(exam.getPublicationDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
+        System.out.println(exam.getPublicationDate().format(DateTimeFormatter.ofPattern("dd 'de' LLLL 'de' yyyy")));
+        System.out.println(exam.getPublicationDate().format(DateTimeFormatter.ofPattern("dd'/'MM'/'yyyy")));
+
+    //           System.out.println(exam.getChangeDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)));
+    //            System.out.println(exam.getChangeDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)));
+        System.out.println(exam.getChangeDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)));
+        System.out.println(exam.getChangeDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
+
+        System.out.println(exam.getPublicationDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)));
+        System.out.println(exam.getPublicationDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)));
+        System.out.println(exam.getPublicationDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
+        
+        
+       assertEquals(exam.getName(), "Exam 1");
+       assertEquals(exam.getDeadline(), LocalDate.of(2022, Month.MARCH, 31));
+       assertEquals(exam.getType(),Exam.ExamType.INDIVIDUAL);
+       assertEquals(exam.getExamQuestions().size(),5);
+       assertEquals(exam.getExamQuestions().get(0).getExamQuestionOptions().size(),3);
+    }
+    
+    public Exam createExam() {
         Exam exam
                 = Exam.builder()
                         .name("Exam 1")
@@ -62,14 +83,14 @@ public class ExamQuestionOptionNGTest {
                         .build();
         exam.setCourse(course);
         exam.setConsultant(consultant);
-
+        exam.setExamQuestions(addExamQuestions(exam));
+        
         return exam;
     }
     
     public List<ExamQuestion> addExamQuestions (Exam exam){
          ArrayList <ExamQuestion> list = new ArrayList();
          for (int i = 0; i < 5; i++) {
-            
             ExamQuestion question
                    = ExamQuestion.builder()
                            .wording("Question "+i+" statement")
@@ -78,6 +99,7 @@ public class ExamQuestionOptionNGTest {
                            .type(ExamQuestion.QuestionType.OPTIONS)
                            .position(i)
                            .build();
+            question.setExamQuestionOptions(addExamQuestionOptions(question));
             list.add(question);
          }
          
@@ -90,10 +112,9 @@ public class ExamQuestionOptionNGTest {
             
             ExamQuestionOption questionOption
                    = ExamQuestionOption.builder()
-                           //.wording("Question "+i+" statement")
-                          // .isMultipleSelection(((i % 2)==0))
-                          // .exam(exam)
-                          // .type(ExamQuestion.QuestionType.OPTIONS)
+                           .wording("Option "+i)
+                           .isRigth(i==1)
+                           .examQuestion(question)
                            .position(i)
                            .build();
             list.add(questionOption);

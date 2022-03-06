@@ -17,33 +17,33 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "examQuestionOptions")
+@Table(name = "examQuestionOptionAnswers")
 
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExamQuestionOption implements Serializable {
+public class ExamQuestionOptionAnswer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @ManyToOne
+    private ExamQuestionOption examQuestionOption;
+    
     @ToString.Exclude //Avoid StackOverflow error
     @ManyToOne
-    private ExamQuestion examQuestion;
+    private ExamQuestionAnswer examQuestionAnswer;
 
     @Column
-    @Size(max = 500)
+    @Size(max = 4000)
     @NotNull
-    private String wording;
+    private String answer;
 
     @Column
     @NotNull
-    private boolean isRigth;
+    private boolean isSelected;
 
-    @Column
-    private int position;
-
-	
+    private String Score;
 }

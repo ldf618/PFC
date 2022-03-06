@@ -44,10 +44,10 @@ public class GroupNGTest {
         
         em = JPASessionUtil.getEntityManager();
         em.getTransaction().begin();      
-        Group result = em.find(Group.class, group.getIdGroup());
+        Group result = em.find(Group.class, group.getId());
         assertNotNull(result);
         assertEquals(result.getName(), group.getName());
-        assertEquals(result.getIdGroup(), group.getIdGroup());
+        assertEquals(result.getId(), group.getId());
         em.remove(result);
         em.getTransaction().commit();
         em.close();
