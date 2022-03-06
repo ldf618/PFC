@@ -7,7 +7,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class StudentOptionAnswerScorePK implements Serializable{
     
-    @Column(name = "students_id")
+    @Column(name = "student_id")
     private int studentId;
 
     @Column(name = "examQuestionOptionAnswer_id")

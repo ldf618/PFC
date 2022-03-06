@@ -22,7 +22,10 @@ public class Student extends User {
     )*/
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Group> groups;
-
+    
+    @OneToMany(mappedBy = "student")
+    private List <StudentOptionAnswerScore> Score;
+    
     @Builder(builderMethodName = "studentBuilder")
     public Student(int idUser, String name, String surname1, String surname2, String dni, String userName, String userPassword) {
         super(idUser, name, surname1, surname2, dni, userName, userPassword);
