@@ -25,12 +25,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Classroom implements Serializable{
-	  
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer classroomId;
-        
+public class Classroom extends IdentityIntId{
+	         
         @Column
         @NotNull
         @Size(min = 2, max = 50)
