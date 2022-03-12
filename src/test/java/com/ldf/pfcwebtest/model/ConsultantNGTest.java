@@ -21,9 +21,9 @@ public class ConsultantNGTest {
     @Test
     public void ConsultantTest(){        
         Consultant consultant =
-                Consultant.consultantBuilder()
+                Consultant.builder()//consultantBuilder()
                 .dni("16232121J")
-                .idUser(1)
+                .id(1)
                 .firstName("Juan").surname1("Diez").surname2("Fuente")
                 .userName("JDF123")
                 .userPassword("123456")

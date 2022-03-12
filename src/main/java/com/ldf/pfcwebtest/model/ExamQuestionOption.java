@@ -13,21 +13,28 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "examQuestionOptions")
 
-@Builder
-@Data
+@SuperBuilder
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-public class ExamQuestionOption implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class ExamQuestionOption extends IdentityIntId{  /*implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+*/
 
     @ToString.Exclude //Avoid StackOverflow error
     @ManyToOne

@@ -8,7 +8,12 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 //javax.persistence
 
@@ -19,14 +24,16 @@ import lombok.NoArgsConstructor;
 @DiscriminatorValue("Users")
 
 //Lombok
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Builder
-public class User implements Serializable{
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@SuperBuilder
+public class User extends IdentityIntId { /*implements Serializable{
 	@Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int id;*/
         
         @Column
         @NotNull

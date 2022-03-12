@@ -26,7 +26,7 @@ public class ConsultantNGTest {
         EntityManager em = JPASessionUtil.getEntityManager();
         em.getTransaction().begin();
         Consultant consultant =
-                Consultant.consultantBuilder()
+                Consultant.builder()//consultantBuilder()
                 .dni("16232121J")
                 .firstName("Juan").surname1("Diez").surname2("Fuente")
                 .userName("JDF123")
@@ -46,6 +46,9 @@ public class ConsultantNGTest {
         q.setParameter("type", Consultant.class);
         Consultant result = (Consultant)q.getSingleResult();
         // si funciona Consultant result = em.find(Consultant.class, consultant.getId());
+        
+                System.out.println(consultant);
+        System.out.println(result);
         assertNotNull(result);
         assertEquals(result, consultant);
         em.remove(result);

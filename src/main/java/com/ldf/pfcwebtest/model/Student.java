@@ -3,15 +3,24 @@ package com.ldf.pfcwebtest.model;
 import java.util.List;
 import javax.persistence.*;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 //javax.persistence
 @Entity
 @DiscriminatorValue("Students")
 //Lombok
-@NoArgsConstructor
+
+@Getter
 @Setter
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@SuperBuilder
 public class Student extends User {
     
     /*
@@ -21,10 +30,11 @@ public class Student extends User {
         inverseJoinColumns = @JoinColumn(name="FK_GROUP", nullable = false)
     )*/
     @ManyToMany(cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
     private List<Group> groups;
 
-    @Builder(builderMethodName = "studentBuilder")
+   /* @Builder(builderMethodName = "studentBuilder")
     public Student(int idUser, String name, String surname1, String surname2, String dni, String userName, String userPassword) {
         super(idUser, name, surname1, surname2, dni, userName, userPassword);
-    }
+    }*/
 }
