@@ -6,15 +6,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 
 /**
  *
  * @author Lo
  */
-@Data
 
-
+@SuperBuilder
+@NoArgsConstructor
+@Getter
+@Setter
 @MappedSuperclass
 public abstract class IdentityIntId implements Serializable{
         
