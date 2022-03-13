@@ -2,23 +2,21 @@ package com.ldf.pfcwebtest.model;
 
 //javax.persistence
 
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 /**
  *
@@ -27,15 +25,17 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "Groups")
 //Lombok
+@SuperBuilder
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Data
-@Builder
-public class Group implements Serializable{
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class Group extends IdentityIntId {/*implements Serializable{
 	
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int id;*/
         
         @Column
         @NotNull

@@ -1,27 +1,30 @@
 package com.ldf.pfcwebtest.model;
 
-import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 //javax.persistence
 @Entity
 @Table(name = "Courses")
 //Lombok
+@SuperBuilder
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Data
-@Builder
-public class Course implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class Course extends IdentityIntId{/*implements Serializable {
 
     	@Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idCourse;
+	private int id;*/
         
         @Column
         @NotNull

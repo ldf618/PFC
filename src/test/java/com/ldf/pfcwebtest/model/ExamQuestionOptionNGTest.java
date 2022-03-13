@@ -68,7 +68,7 @@ public class ExamQuestionOptionNGTest {
                         .type(Exam.ExamType.INDIVIDUAL)
                         .build();
         Consultant consultant
-                = Consultant.consultantBuilder()
+                = Consultant.builder()
                         .firstName("Scott")
                         .surname1("Tiger")
                         .surname2("Tiger")

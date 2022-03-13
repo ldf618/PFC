@@ -21,10 +21,10 @@ public class StudentNGTest {
     @Test
     public void StudentTest(){        
         Student student =
-                Student.studentBuilder()
+                Student.builder()//studentBuilder()
                 .dni("16232121J")
-                .idUser(1)
-                .name("Juan").surname1("Diez").surname2("Fuente")
+                .id(1)
+                .firstName("Juan").surname1("Diez").surname2("Fuente")
                 .userName("JDF123")
                 .userPassword("123456")
                 .build();

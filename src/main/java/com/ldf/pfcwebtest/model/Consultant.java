@@ -2,7 +2,12 @@ package com.ldf.pfcwebtest.model;
 
 import javax.persistence.*;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 //javax.persistence
 @Entity
@@ -10,11 +15,18 @@ import lombok.NoArgsConstructor;
 @DiscriminatorValue("Consultants")
 
 //Lombok
+@Getter
+@Setter
+@SuperBuilder
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class Consultant extends User {
 
+    /*
     @Builder(builderMethodName = "consultantBuilder")
     public Consultant(int idUser, String firstName, String surname1, String surname2, String dni, String userName, String userPassword) {
         super(idUser, firstName, surname1, surname2, dni, userName, userPassword);
     }
+*/
 }

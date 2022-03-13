@@ -58,15 +58,18 @@ public class GroupNGTest {
         EntityManager em = JPASessionUtil.getEntityManager();
         em.getTransaction().begin();
         
-        Student student1 =Student.studentBuilder().dni("11111111A").name("name1").surname1("surname11").surname2("surname21")
+        Student student1 =Student.builder()//.studentBuilder()
+                .dni("11111111A").firstName("name1").surname1("surname11").surname2("surname21")
                 .userName("NSS111").userPassword("123456").build();
 //        em.persist(student1);
     
-        Student student2 =Student.studentBuilder().dni("22222222B").name("name2").surname1("surname12").surname2("surname22")
+        Student student2 =Student.builder()//studentBuilder()
+                .dni("22222222B").firstName("name2").surname1("surname12").surname2("surname22")
                 .userName("NSS222").userPassword("123456").build();
 //        em.persist(student2);
         
-        Student student3 =Student.studentBuilder().dni("33333333C").name("name3").surname1("surname13").surname2("surname23")
+        Student student3 =Student.builder()//.studentBuilder()
+                .dni("33333333C").firstName("name3").surname1("surname13").surname2("surname23")
                 .userName("NSS333").userPassword("123456").build();        
 //        em.persist(student3);
 
