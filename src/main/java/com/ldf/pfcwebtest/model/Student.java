@@ -33,6 +33,16 @@ public class Student extends User {
     @EqualsAndHashCode.Exclude
     private List<Group> groups;
     
+    /*
+    @JoinTable(
+        name = "rel_student_group",
+        joinColumns = @JoinColumn(name = "FK_STUDENT", nullable = false),
+        inverseJoinColumns = @JoinColumn(name="FK_GROUP", nullable = false)
+    )*/
+    @ManyToMany(cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    private List<Classroom> classrooms;
+    
     @OneToMany(mappedBy = "student")
     private List <StudentOptionAnswerScore> Score;
 

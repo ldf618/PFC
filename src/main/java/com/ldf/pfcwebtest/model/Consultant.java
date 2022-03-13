@@ -1,5 +1,6 @@
 package com.ldf.pfcwebtest.model;
 
+import java.util.List;
 import javax.persistence.*;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -29,4 +30,13 @@ public class Consultant extends User {
         super(idUser, firstName, surname1, surname2, dni, userName, userPassword);
     }
 */
+    @EqualsAndHashCode.Exclude
+    @OneToMany (mappedBy = "consultant")
+    private List<Classroom> classrooms;
+    
+    @EqualsAndHashCode.Exclude
+    @OneToMany (mappedBy = "consultant")
+    private List<Exam> exams;
+    
+    
 }
