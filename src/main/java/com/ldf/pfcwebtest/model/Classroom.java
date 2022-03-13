@@ -13,10 +13,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-/**
- *
- * @author Lo
- */
 @Entity
 @Table (name="classrooms")
 @SuperBuilder
