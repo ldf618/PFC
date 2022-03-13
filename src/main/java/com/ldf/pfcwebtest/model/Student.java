@@ -32,6 +32,9 @@ public class Student extends User {
     @ManyToMany(cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     private List<Group> groups;
+    
+    @OneToMany(mappedBy = "student")
+    private List <StudentOptionAnswerScore> Score;
 
    /* @Builder(builderMethodName = "studentBuilder")
     public Student(int idUser, String name, String surname1, String surname2, String dni, String userName, String userPassword) {
