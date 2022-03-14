@@ -17,16 +17,16 @@ import org.testng.annotations.Test;
  *
  * @author ldiez
  */
-public class PopulateAllModelNGTest {
+public class ModelCreation {
 
-    public PopulateAllModelNGTest() {
+    public ModelCreation() {
     }
     
     @Test
     public void populate(){
         Student student = createStudent();
         Consultant consultant = createConsultant();
-        Degree degree = createDegree();
+        Degree degree = createDegree(1);
         Course course = createCourse(1, degree);
         Classroom classroom = createClassroom(consultant, course);
         Exam exam = createExam (course,consultant);
@@ -52,9 +52,10 @@ public class PopulateAllModelNGTest {
                 .build();
     }
 
-    public Degree createDegree() {
+    public Degree createDegree(int i) {
         return Degree.builder()
-                .name("Computer Science")
+                .name("Computer Science "+i)
+                .courses(new ArrayList<>())
                 .build();
     }
 

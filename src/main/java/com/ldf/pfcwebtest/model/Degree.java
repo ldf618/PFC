@@ -9,18 +9,22 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name="degrees")
+
+@SuperBuilder
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class Degree extends IdentityIntId /*implements Serializable*/{
 
     /*
@@ -34,6 +38,7 @@ public class Degree extends IdentityIntId /*implements Serializable*/{
 	private String name;
         
         //cascade = CascadeType.PERSIST, orphanRemoval = true si eliminamos de la lista se elimina de la BD
+        @ToString.Exclude
         @OneToMany (mappedBy = "degree", fetch = FetchType.LAZY , cascade = CascadeType.PERSIST, orphanRemoval = true)
         private List<Course> courses;
 	
