@@ -1,7 +1,10 @@
 package com.ldf.pfcwebtest.model;
 
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -33,4 +36,8 @@ public class Classroom extends IdentityIntId{
         
         @ManyToOne
 	private Course course;
+        
+        //Mapped by es el nombre de la lista en la clase Student
+        @ManyToMany(mappedBy="classrooms",cascade = CascadeType.ALL) 
+        private List<Student> students;
 }

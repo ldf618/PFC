@@ -11,6 +11,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import static org.testng.Assert.*;
+import org.testng.annotations.Test;
 
 /**
  *
@@ -19,6 +20,16 @@ import static org.testng.Assert.*;
 public class PopulateAllModelNGTest {
 
     public PopulateAllModelNGTest() {
+    }
+    
+    @Test
+    public void populate(){
+        Student student = createStudent();
+        Consultant consultant = createConsultant();
+        Degree degree = createDegree();
+        Course course = createCourse(1, degree);
+        Classroom classroom = createClassroom(consultant, course);
+        Exam exam = createExam (course,consultant);
     }
 
     public Student createStudent() {
