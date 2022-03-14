@@ -24,18 +24,16 @@ public abstract class DAO<T> {
         this.modelClass = modelClass;
     }
 
-    public final T create(T obj) {
+    public final void create(T obj) {
         transactionExecutor((em) -> {
             em.persist(obj);
         });
-        return obj;
     }
 
-    public final T delete(T obj) {
+    public final void delete(T obj) {
         transactionExecutor((em) -> {
             em.remove(em.merge(obj));
         });
-        return obj;
     }
 
     public final void update(T obj) {
@@ -75,10 +73,12 @@ public abstract class DAO<T> {
 
     public List<T> findRange(int[] range) {
         return transactionExecutorList((em) -> {
+            int maxResult=range[1]-range[0];
+            if (maxResult<0) maxResult=0;
             javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(modelClass));
             javax.persistence.Query q = em.createQuery(cq);
-            q.setMaxResults(range[1] - range[0]);
+            q.setMaxResults(maxResult);
             q.setFirstResult(range[0]);
             return q.getResultList();
         });
@@ -147,7 +147,7 @@ public abstract class DAO<T> {
 
     private List<Predicate> createWhere(Root<T> root, Map map, CriteriaBuilder builder) {
         ArrayList<Predicate> predicates = new ArrayList<Predicate>();
-
+        /*
         Iterator it = map.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry e = (Map.Entry) it.next();
@@ -161,7 +161,17 @@ public abstract class DAO<T> {
             } else {
                 predicates.add(builder.equal(root.get((String) okey), value));
             }
+        }*/
+        map.forEach((k, v) -> {
+            if (k instanceof SingularAttribute) {
+                predicates.add(builder.equal(root.get((SingularAttribute) k), v));
+            } else if (k instanceof Path) {
+                predicates.add(builder.equal((Path) k, v));
+            } else {
+                predicates.add(builder.equal(root.get((String) k), v));
+            }
         }
+        );
         return predicates;
     }
 

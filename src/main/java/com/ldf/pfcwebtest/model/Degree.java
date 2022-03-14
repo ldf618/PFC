@@ -39,6 +39,7 @@ public class Degree extends IdentityIntId /*implements Serializable*/{
         
         //cascade = CascadeType.PERSIST, orphanRemoval = true si eliminamos de la lista se elimina de la BD
         @ToString.Exclude
+        @EqualsAndHashCode.Exclude
         @OneToMany (mappedBy = "degree", fetch = FetchType.LAZY , cascade = CascadeType.PERSIST, orphanRemoval = true)
         private List<Course> courses;
 	
