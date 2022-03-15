@@ -1,12 +1,9 @@
 package com.ldf.pfcwebtest.persistence;
 
-import com.ldf.pfcwebtest.persistence.util.JPASessionUtil;
+import com.ldf.pfcwebtest.persistence.util.JPAUtil;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -25,90 +22,96 @@ public abstract class DAO<T> {
     }
 
     public final void create(T obj) {
-        transactionExecutor((em) -> {
-            em.persist(obj);
-        });
+        EntityManager em = JPAUtil.beginTransaction();
+        em.persist(obj);
+        JPAUtil.endTransaction(em);
+
     }
 
     public final void delete(T obj) {
-        transactionExecutor((em) -> {
-            em.remove(em.merge(obj));
-        });
+        EntityManager em = JPAUtil.beginTransaction();
+        em.remove(em.merge(obj));
+        JPAUtil.endTransaction(em);
+
     }
 
     public final void update(T obj) {
-        transactionExecutor((em) -> {
-            em.merge(obj);
-        });
+        EntityManager em = JPAUtil.beginTransaction();
+        em.merge(obj);
+        JPAUtil.endTransaction(em);
+
     }
 
     public final T find(int id) {
 
-        return (T) transactionExecutorObject((em) -> {
-            T obj = em.find(modelClass, id);
-            return obj;
-        });
+        EntityManager em = JPAUtil.beginTransaction();
+        T obj = em.find(modelClass, id);
+        JPAUtil.endTransaction(em);
+        return obj;
     }
 
     public List<T> findAll() {
-        return transactionExecutorList((em) -> {
-            javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(modelClass));
-            return em.createQuery(cq).getResultList();
-        });
-
+        EntityManager em = JPAUtil.beginTransaction();
+        javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(modelClass));
+        List<T> result = em.createQuery(cq).getResultList();
+        JPAUtil.endTransaction(em);
+        return result;
     }
 
     public List<T> findAll(Object orderAttribute, Boolean asc) {
-        return transactionExecutorList((em) -> {
-            CriteriaBuilder builder = em.getCriteriaBuilder();
-            CriteriaQuery cq = builder.createQuery();
-            Root<T> root = cq.from(modelClass);
-            cq.select(root);
-            orderBy(cq, root, orderAttribute, asc, builder);
-            return em.createQuery(cq).getResultList();
-        });
-
+        EntityManager em = JPAUtil.beginTransaction();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery cq = builder.createQuery();
+        Root<T> root = cq.from(modelClass);
+        cq.select(root);
+        orderBy(cq, root, orderAttribute, asc, builder);
+        List<T> result = em.createQuery(cq).getResultList();
+        JPAUtil.endTransaction(em);
+        return result;
     }
 
     public List<T> findRange(int[] range) {
-        return transactionExecutorList((em) -> {
-            int maxResult=range[1]-range[0];
-            if (maxResult<0) maxResult=0;
-            javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(modelClass));
-            javax.persistence.Query q = em.createQuery(cq);
-            q.setMaxResults(maxResult);
-            q.setFirstResult(range[0]);
-            return q.getResultList();
-        });
+        EntityManager em = JPAUtil.beginTransaction();
+        
+        int maxResult = (range[1] - range[0]) < 0 ? 0 : range[1] - range[0];
+        javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(modelClass));
+        javax.persistence.Query q = em.createQuery(cq);
+        q.setMaxResults(maxResult);
+        q.setFirstResult(range[0]);
+        List<T> result = q.getResultList();
+        
+        JPAUtil.endTransaction(em);
+        return result;
     }
 
     public int count() {
-        Long result = (Long) transactionExecutorObject((em) -> {
-            javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            javax.persistence.criteria.Root<T> rt = cq.from(modelClass);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            javax.persistence.Query q = em.createQuery(cq);
-            return q.getSingleResult();
-        });
-        return result.intValue();
+        EntityManager em = JPAUtil.beginTransaction();
+        javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<T> rt = cq.from(modelClass);
+        cq.select(em.getCriteriaBuilder().count(rt));
+        javax.persistence.Query q = em.createQuery(cq);
+        int result = ((Long) q.getSingleResult()).intValue();
+        JPAUtil.endTransaction(em);
+        return result;
     }
 
     protected List<T> executeJPQL(String namedQuery) {
-        return transactionExecutorList((em) -> {
-            return em.createNamedQuery(namedQuery, modelClass).getResultList();
-        });
+        EntityManager em = JPAUtil.beginTransaction();
+        List<T> result = em.createNamedQuery(namedQuery, modelClass).getResultList();
+        JPAUtil.endTransaction(em);
+        return result;
     }
 
     public List<T> findCustom(Map map, int[] range, Object orderAttribute, boolean ordenAsc) {
-        return transactionExecutorList((em) -> {
+            EntityManager em = JPAUtil.beginTransaction();
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery cq = builder.createQuery();
             Root<T> root = cq.from(modelClass);
             cq.select(root);
 
-            List<Predicate> predicates = new ArrayList<Predicate>();
+            List<Predicate> predicates;
             if (map != null && map.size() > 0) {
                 predicates = createWhere(root, map, builder);
                 cq.where(builder.and(predicates.toArray(new Predicate[]{})));
@@ -121,32 +124,34 @@ public abstract class DAO<T> {
                 q.setMaxResults(range[1]);
                 q.setFirstResult(range[0]);
             }
-            return q.getResultList();
-        });
+            List<T> result = q.getResultList();
+            JPAUtil.endTransaction(em);
+            return result;
+
     }
 
     public Integer countCustom(Map map) {
-        Long result = (Long) transactionExecutorObject((em) -> {
+            EntityManager em = JPAUtil.beginTransaction();
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery cq = builder.createQuery();
             Root<T> root = cq.from(modelClass);
             cq.select(builder.count(root));
 
-            List<Predicate> predicates = new ArrayList<Predicate>();
+            List<Predicate> predicates ;
             if (map != null && map.size() > 0) {
                 predicates = createWhere(root, map, builder);
                 cq.where(builder.and(predicates.toArray(new Predicate[]{})));
             }
 
             javax.persistence.Query q = em.createQuery(cq);
-            return q.getSingleResult();
-        });
-
-        return result.intValue();
+            int result =((Long)q.getSingleResult()).intValue();
+            
+            JPAUtil.endTransaction(em);
+            return result;
     }
 
     private List<Predicate> createWhere(Root<T> root, Map map, CriteriaBuilder builder) {
-        ArrayList<Predicate> predicates = new ArrayList<Predicate>();
+        ArrayList<Predicate> predicates = new ArrayList<>();
         /*
         Iterator it = map.entrySet().iterator();
         while (it.hasNext()) {
@@ -175,6 +180,34 @@ public abstract class DAO<T> {
         return predicates;
     }
 
+    private void orderBy(CriteriaQuery cq, Root<T> root, Object OrderAttribute, boolean asc, CriteriaBuilder builder) {
+        if (OrderAttribute != null) {
+            if (OrderAttribute instanceof SingularAttribute) {
+                if (asc) {
+                    cq.orderBy(builder.asc(root.get((SingularAttribute) OrderAttribute)));
+                } else {
+                    cq.orderBy(builder.desc(root.get((SingularAttribute) OrderAttribute)));
+                }
+            } else if (OrderAttribute instanceof Path) {
+                if (asc) {
+                    cq.orderBy(builder.asc((Path) OrderAttribute));
+                } else {
+                    cq.orderBy(builder.desc((Path) OrderAttribute));
+                }
+            } else {
+                String sOrderAttribute = ((String) OrderAttribute).trim();
+                if (!sOrderAttribute.equals("")) {
+                    if (asc) {
+                        cq.orderBy(builder.asc(root.get(sOrderAttribute)));
+                    } else {
+                        cq.orderBy(builder.desc(root.get(sOrderAttribute)));
+                    }
+                }
+            }
+        }
+    }
+    
+        /*
     protected void transactionExecutor(Consumer<EntityManager> command) {
         EntityManager em = JPASessionUtil.getEntityManager();
         em.getTransaction().begin();
@@ -219,31 +252,5 @@ public abstract class DAO<T> {
 
         return result;
     }
-
-    private void orderBy(CriteriaQuery cq, Root<T> root, Object OrderAttribute, boolean asc, CriteriaBuilder builder) {
-        if (OrderAttribute != null) {
-            if (OrderAttribute instanceof SingularAttribute) {
-                if (asc) {
-                    cq.orderBy(builder.asc(root.get((SingularAttribute) OrderAttribute)));
-                } else {
-                    cq.orderBy(builder.desc(root.get((SingularAttribute) OrderAttribute)));
-                }
-            } else if (OrderAttribute instanceof Path) {
-                if (asc) {
-                    cq.orderBy(builder.asc((Path) OrderAttribute));
-                } else {
-                    cq.orderBy(builder.desc((Path) OrderAttribute));
-                }
-            } else {
-                String sOrderAttribute = ((String) OrderAttribute).trim();
-                if (!sOrderAttribute.equals("")) {
-                    if (asc) {
-                        cq.orderBy(builder.asc(root.get(sOrderAttribute)));
-                    } else {
-                        cq.orderBy(builder.desc(root.get(sOrderAttribute)));
-                    }
-                }
-            }
-        }
-    }
+     */
 }

@@ -8,7 +8,7 @@ package com.ldf.pfcwebtest.persistence;
 import com.ldf.pfcwebtest.model.Classroom;
 import com.ldf.pfcwebtest.model.Group;
 import com.ldf.pfcwebtest.model.Student;
-import com.ldf.pfcwebtest.persistence.util.JPASessionUtil;
+import com.ldf.pfcwebtest.persistence.util.JPAUtil;
 import java.util.Arrays;
 import java.util.LinkedList;
 import javax.persistence.EntityManager;
@@ -36,13 +36,13 @@ public class GroupNGTest {
                 Group.builder()
                 .name("Grupo 1")
                 .build();
-        EntityManager em = JPASessionUtil.getEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         em.persist(group);
         em.getTransaction().commit();        
         em.close();
         
-        em = JPASessionUtil.getEntityManager();
+        em = JPAUtil.getEntityManager();
         em.getTransaction().begin();      
         Group result = em.find(Group.class, group.getId());
         assertNotNull(result);
@@ -55,7 +55,7 @@ public class GroupNGTest {
     
     @Test
     public void persistFullGroup() {
-        EntityManager em = JPASessionUtil.getEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         
         Student student1 =Student.builder()//.studentBuilder()

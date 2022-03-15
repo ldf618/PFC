@@ -9,6 +9,7 @@ import com.ldf.pfcwebtest.model.Course;
 import com.ldf.pfcwebtest.model.Degree;
 import com.ldf.pfcwebtest.model.ModelCreation;
 import java.util.ArrayList;
+import java.util.Map;
 import static org.testng.Assert.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -71,6 +72,11 @@ public class DegreeDAONGTest {
         assertTrue (dao.findAll("name", Boolean.TRUE).indexOf(mdegree1)==0);
         
         assertTrue (dao.findRange(new int[]{0,3,4}).size()==3);
+        
+        Map<String, String> test1 = Map.of(
+          "name", "Computer Science 1"           
+        );
+        assertTrue (dao.countCustom(test1)==1);
         
     }
     

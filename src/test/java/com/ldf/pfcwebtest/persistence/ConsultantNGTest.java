@@ -6,7 +6,7 @@ package com.ldf.pfcwebtest.persistence;
 
 import com.ldf.pfcwebtest.model.Consultant;
 import com.ldf.pfcwebtest.model.User;
-import com.ldf.pfcwebtest.persistence.util.JPASessionUtil;
+import com.ldf.pfcwebtest.persistence.util.JPAUtil;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import static org.testng.Assert.*;
@@ -23,7 +23,7 @@ public class ConsultantNGTest {
 
     @Test
     public void persistConsultant() {
-        EntityManager em = JPASessionUtil.getEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         Consultant consultant =
                 Consultant.builder()//consultantBuilder()
@@ -36,7 +36,7 @@ public class ConsultantNGTest {
         em.getTransaction().commit();
        // System.out.println("IdUser:"+consultant.getIdUser());
         em.close();
-        em = JPASessionUtil.getEntityManager();
+        em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         
         //no funciona TypedQuery<Consultant> q = em.createQuery("from Users u where u.dni=:dni and type(u)=:type", Consultant.class);

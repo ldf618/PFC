@@ -10,7 +10,7 @@ import com.ldf.pfcwebtest.model.Course;
 import com.ldf.pfcwebtest.model.Exam;
 import com.ldf.pfcwebtest.model.Exam.ExamType;
 import com.ldf.pfcwebtest.model.ExamQuestionOptionNGTest;
-import com.ldf.pfcwebtest.persistence.util.JPASessionUtil;
+import com.ldf.pfcwebtest.persistence.util.JPAUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -65,12 +65,12 @@ public class ExamNGTest {
                         .deadline(LocalDate.of(2022, Month.MARCH, 31))
                         .type(ExamType.INDIVIDUAL)
                         .build();
-        EntityManager em = JPASessionUtil.getEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         em.persist(exam);
         em.getTransaction().commit();
         em.close();
-        em = JPASessionUtil.getEntityManager();
+        em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         Exam result = em.find(Exam.class, exam.getId());
         assertNotNull(result);
@@ -115,7 +115,7 @@ public class ExamNGTest {
     }
 
     private void doWithEntityManager(Consumer<EntityManager> command) {
-        EntityManager em = JPASessionUtil.getEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         command.accept(em);
         if (em.getTransaction().isActive()

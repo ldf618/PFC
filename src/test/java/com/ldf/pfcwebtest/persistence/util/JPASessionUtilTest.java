@@ -13,7 +13,7 @@ import static org.testng.Assert.*;
 public class JPASessionUtilTest {
   @Test
   public void getEntityManager() {
-    EntityManager em = JPASessionUtil
+    EntityManager em = JPAUtil
         .getEntityManager("utiljpa");
     em.close();
   }
@@ -22,13 +22,13 @@ public class JPASessionUtilTest {
       expectedExceptions = {javax.persistence.PersistenceException.class}
   )
   public void nonexistentEntityManagerName() {
-    JPASessionUtil.getEntityManager("nonexistent");
+    JPAUtil.getEntityManager("nonexistent");
     fail("We shouldn't be able to acquire an EntityManager here");
   }
 
   @Test
   public void getSession() {
-    Session session = JPASessionUtil.getSession("utiljpa");
+    Session session = JPAUtil.getSession("utiljpa");
     session.close();
   }
 
@@ -36,7 +36,7 @@ public class JPASessionUtilTest {
       expectedExceptions = {javax.persistence.PersistenceException.class}
   )
   public void nonexistentSessionName() {
-    JPASessionUtil.getSession("nonexistent");
+    JPAUtil.getSession("nonexistent");
     fail("We shouldn't be able to acquire a Session here");
   }
 

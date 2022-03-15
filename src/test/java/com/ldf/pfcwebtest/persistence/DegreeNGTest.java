@@ -7,7 +7,7 @@ package com.ldf.pfcwebtest.persistence;
 
 import com.ldf.pfcwebtest.model.Course;
 import com.ldf.pfcwebtest.model.Degree;
-import com.ldf.pfcwebtest.persistence.util.JPASessionUtil;
+import com.ldf.pfcwebtest.persistence.util.JPAUtil;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 import static org.testng.Assert.assertEquals;
@@ -79,12 +79,12 @@ public class DegreeNGTest {
                 = Degree.builder()
                         .name("Economics")
                         .build();
-        EntityManager em = JPASessionUtil.getEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         em.persist(degree);
         em.getTransaction().commit();
         em.close();
-        em = JPASessionUtil.getEntityManager();
+        em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         Degree result = em.find(Degree.class, degree.getId());
         assertNotNull(result);
@@ -202,7 +202,7 @@ public class DegreeNGTest {
     }
     
     private void doWithEntityManager(Consumer<EntityManager> command) {
-        EntityManager em = JPASessionUtil.getEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         command.accept(em);
         if (em.getTransaction().isActive()

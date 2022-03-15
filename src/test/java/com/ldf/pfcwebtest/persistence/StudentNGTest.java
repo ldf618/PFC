@@ -8,7 +8,7 @@ import com.ldf.pfcwebtest.model.Consultant;
 import com.ldf.pfcwebtest.model.Group;
 import com.ldf.pfcwebtest.model.Student;
 import com.ldf.pfcwebtest.model.User;
-import com.ldf.pfcwebtest.persistence.util.JPASessionUtil;
+import com.ldf.pfcwebtest.persistence.util.JPAUtil;
 import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -26,7 +26,7 @@ public class StudentNGTest {
 
     @Test
     public void persistStudent() {
-        EntityManager em = JPASessionUtil.getEntityManager();
+        EntityManager em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         Student student =
                 Student.builder()//.studentBuilder()
@@ -40,7 +40,7 @@ public class StudentNGTest {
         em.getTransaction().commit();
        // System.out.println("IdUser:"+consultant.getIdUser());
         em.close();
-        em = JPASessionUtil.getEntityManager();
+        em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         
         //no funciona TypedQuery<Student> q = em.createQuery("from User u where u.dni=:dni and type(u)=:type", Student.class);

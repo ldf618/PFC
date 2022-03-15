@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class JPASessionUtil {
+public class JPAUtil {
 
     private static final Map<String, EntityManagerFactory> persistenceUnits = new HashMap<>();
     private static EntityManagerFactory persistenceUnit = null;
@@ -28,6 +28,22 @@ public class JPASessionUtil {
         }
 
         return persistenceUnit.createEntityManager();
+    }
+    
+    public static synchronized EntityManager beginTransaction() {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        return em;
+    }
+    
+    public static synchronized void endTransaction(EntityManager em) {
+        if (em.getTransaction().isActive()
+                && !em.getTransaction().getRollbackOnly()) {
+            em.getTransaction().commit();
+        } else {
+            em.getTransaction().rollback();
+        }
+        em.close();
     }
 
     public static Session getSession(String persistenceUnitName) {
