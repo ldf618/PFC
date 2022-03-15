@@ -49,5 +49,5 @@ public class ExamQuestionAnswer extends IdentityIntId {/*implements Serializable
     private String answer;
 
     @OneToMany(mappedBy = "examQuestionAnswer", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<ExamQuestionOptionAnswer> examQuestionOptionsAnswer;
+    private List<ExamQuestionOptionAnswer> examQuestionOptionAnswer;
 }

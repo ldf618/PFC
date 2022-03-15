@@ -31,6 +31,7 @@ public class Student extends User {
     )*/
     @ManyToMany(cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Group> groups;
     
     /*
@@ -41,9 +42,12 @@ public class Student extends User {
     )*/
     @ManyToMany(cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Classroom> classrooms;
     
     @OneToMany(mappedBy = "student")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List <StudentOptionAnswerScore> Score;
 
    /* @Builder(builderMethodName = "studentBuilder")

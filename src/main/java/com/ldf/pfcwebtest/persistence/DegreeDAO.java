@@ -5,7 +5,7 @@ import com.ldf.pfcwebtest.model.Degree;
 public class DegreeDAO extends DAO<Degree> {
 
     public DegreeDAO() {
-        this.setmodelClass(Degree.class);
+        this.setModelClass(Degree.class);
     }
    
     /*

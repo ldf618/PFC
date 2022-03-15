@@ -1,13 +1,8 @@
 package com.ldf.pfcwebtest.model;
 
-import java.io.Serializable;
 import javax.persistence.*;
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

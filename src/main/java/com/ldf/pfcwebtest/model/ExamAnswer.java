@@ -2,10 +2,13 @@ package com.ldf.pfcwebtest.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -48,6 +51,6 @@ public class ExamAnswer extends IdentityIntId{ //implements Serializable {
     @ManyToOne (fetch = FetchType.LAZY)
     private Exam exam;
 
-   //@OneToMany (mappedBy = "exam", fetch = FetchType.LAZY , cascade = CascadeType.PERSIST, orphanRemoval = true)
-   //private List<ExamQuestionAnswer> examQuestionAnswers;
+   @OneToMany (mappedBy = "examAnswer", fetch = FetchType.LAZY , cascade = CascadeType.PERSIST, orphanRemoval = true)
+   private List<ExamQuestionAnswer> examQuestionAnswers;
 }

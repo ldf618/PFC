@@ -17,7 +17,7 @@ public abstract class DAO<T> {
 //protected static final Logger LOGGER = LogManager.getLogger(DAO.class);
     protected Class<T> modelClass;
 
-    public void setmodelClass(Class<T> modelClass) {
+    public void setModelClass(Class<T> modelClass) {
         this.modelClass = modelClass;
     }
 

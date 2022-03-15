@@ -31,10 +31,12 @@ public class Consultant extends User {
     }
 */
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToMany (mappedBy = "consultant")
     private List<Classroom> classrooms;
     
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToMany (mappedBy = "consultant")
     private List<Exam> exams;
     

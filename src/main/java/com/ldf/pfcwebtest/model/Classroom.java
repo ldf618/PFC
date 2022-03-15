@@ -31,13 +31,19 @@ public class Classroom extends IdentityIntId{
         @Size(min = 2, max = 50)
 	private String name;
         
-        @ManyToOne
+        @EqualsAndHashCode.Exclude
+        @ToString.Exclude        
+        @ManyToOne(cascade=CascadeType.PERSIST)
 	private Consultant consultant;
         
-        @ManyToOne
+        @EqualsAndHashCode.Exclude
+        @ToString.Exclude
+        @ManyToOne(cascade=CascadeType.PERSIST)
 	private Course course;
         
         //Mapped by es el nombre de la lista en la clase Student
+        @EqualsAndHashCode.Exclude
+        @ToString.Exclude
         @ManyToMany(mappedBy="classrooms",cascade = CascadeType.ALL) 
         private List<Student> students;
 }
