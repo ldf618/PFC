@@ -1,6 +1,10 @@
 package com.ldf.pfcwebtest.persistence;
 
+import com.ldf.pfcwebtest.model.Course;
 import com.ldf.pfcwebtest.model.Degree;
+import com.ldf.pfcwebtest.persistence.util.JPAUtil;
+import java.util.List;
+import javax.persistence.EntityManager;
 
 public class DegreeDAO extends DAO<Degree> {
 
@@ -8,15 +12,12 @@ public class DegreeDAO extends DAO<Degree> {
         this.setModelClass(Degree.class);
     }
    
-    /*
-    @Override
-    public List<Degree> search(Degree criteria) {
-        EntityManager em = JPASessionUtil.getEntityManager();
-        em.getTransaction().begin();
-        Query query = em.createQuery("from Degree d where d.name = :name", Degree.class)
-                .setParameter("name", "Computer Science");
-        em.close();
-        return query.getResultList();
+    public List<Course> getCourses(int idDegree){
+        EntityManager em = JPAUtil.beginTransaction();
+        Degree degree = em.find(modelClass, idDegree);
+        List<Course> courses = degree.getCourses();
+        JPAUtil.endTransaction(em);
+        return courses;        
     }
-    */
+   
 }

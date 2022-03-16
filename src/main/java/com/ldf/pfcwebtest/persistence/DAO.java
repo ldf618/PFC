@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
@@ -97,12 +99,37 @@ public abstract class DAO<T> {
         return result;
     }
 
-    protected List<T> executeJPQL(String namedQuery) {
+    protected List<T> execJPQLMultiple(String namedQuery, Map parameters) {
         EntityManager em = JPAUtil.beginTransaction();
+        
+        TypedQuery<T> tq = em.createNamedQuery(namedQuery, modelClass);        
+        parameters.forEach( (k, v)->{
+            tq.setParameter(k.toString(), v);
+        });       
+        
         List<T> result = em.createNamedQuery(namedQuery, modelClass).getResultList();
         JPAUtil.endTransaction(em);
         return result;
     }
+    
+    protected T execJPQLSingle(String namedQuery, Map parameters) {
+        EntityManager em = JPAUtil.beginTransaction();
+        
+        TypedQuery<T> tq = em.createNamedQuery(namedQuery, modelClass);        
+        parameters.forEach( (k, v)->{
+            tq.setParameter(k.toString(), v);
+        });       
+        
+        T result = null;
+        
+        try{
+         result = tq.getSingleResult();
+        }catch (NoResultException nre){}                           
+        
+        JPAUtil.endTransaction(em);
+        return result;
+    }
+
 
     public List<T> findCustom(Map map, int[] range, Object orderAttribute, boolean ordenAsc) {
             EntityManager em = JPAUtil.beginTransaction();

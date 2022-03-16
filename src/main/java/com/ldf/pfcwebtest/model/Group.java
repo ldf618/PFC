@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,6 +26,15 @@ import lombok.experimental.SuperBuilder;
  */
 @Entity
 @Table(name = "Groups")
+@NamedQueries({
+    @NamedQuery(name = "group.findByClassroom", 
+                query = "from Group g where g.classroom.id=:idClassroom"),
+    @NamedQuery(name = "group.findByStudentAndClassroom", 
+                query = "select group from Group group "
+                        + "join group.students student "
+                        + "where student.id=:idStudent and group.classroom.id=:idClassroom")
+})
+
 //Lombok
 @SuperBuilder
 @Getter

@@ -40,7 +40,7 @@ public class Student extends User {
         joinColumns = @JoinColumn(name = "FK_STUDENT", nullable = false),
         inverseJoinColumns = @JoinColumn(name="FK_GROUP", nullable = false)
     )*/
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy="students",cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Classroom> classrooms;
