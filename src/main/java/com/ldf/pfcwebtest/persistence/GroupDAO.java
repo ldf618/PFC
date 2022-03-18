@@ -16,7 +16,7 @@ public class GroupDAO extends DAO<Group> {
 
         Map<String, Integer> parameters = Map.of(
                 "idStudent", idStudent,
-                "idCourse", idClassroom);
+                "idClassroom", idClassroom);
 
         return execJPQLSingle("group.findByStudentAndClassroom", parameters);
 
@@ -24,7 +24,7 @@ public class GroupDAO extends DAO<Group> {
 
     public List<Group> findByClassroom(int idClassroom) {
         Map<String, Integer> parameters = Map.of(
-                "idCourse", idClassroom);
+                "idClassroom", idClassroom);
         return execJPQLMultiple("group.findByClassroom", parameters);
     }
     

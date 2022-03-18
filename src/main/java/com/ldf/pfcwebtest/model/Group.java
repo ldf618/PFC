@@ -28,11 +28,16 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "Groups")
 @NamedQueries({
     @NamedQuery(name = "group.findByClassroom", 
-                query = "from Group g where g.classroom.id=:idClassroom"),
+                query = "from Group g where g.classroom.id = :idClassroom"),
     @NamedQuery(name = "group.findByStudentAndClassroom", 
-                query = "select group from Group group "
-                        + "join group.students student "
-                        + "where student.id=:idStudent and group.classroom.id=:idClassroom")
+                query = "select g from Group g "
+                        + "join g.students s "
+                        + "where s.id=:idStudent and g.classroom.id=:idClassroom")
+        /*
+    @NamedQuery(name = "group.findByStudentAndClassroom", 
+                query = "select g from Student s "
+                        + "join s.groups g "
+                        + "where s.id=:idStudent and g.classroom.id=:idClassroom")        */
 })
 
 //Lombok
@@ -54,9 +59,13 @@ public class Group extends IdentityIntId {/*implements Serializable{
 	private String name;
         
         //Mapped by es el nombre de la lista en la clase Student
-        @ManyToMany(mappedBy="groups",cascade = CascadeType.ALL) 
+        @ManyToMany(/*mappedBy="groups",*/cascade = CascadeType.ALL) 
+        @EqualsAndHashCode.Exclude
+        @ToString.Exclude
         private List<Student> students;
         
+        @ToString.Exclude
+        @EqualsAndHashCode.Exclude
         @ManyToOne(cascade = CascadeType.ALL)
 	private Classroom classroom;
 }

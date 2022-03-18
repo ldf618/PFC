@@ -40,6 +40,7 @@ public class ExamQuestion extends IdentityIntId{ //implements Serializable {
 */
     
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     //@NotNull
     @ManyToOne
     private Exam exam;
@@ -60,7 +61,9 @@ public class ExamQuestion extends IdentityIntId{ //implements Serializable {
 
     @Column
     private int position;
-
-    @OneToMany (mappedBy = "examQuestion", fetch = FetchType.LAZY , cascade = CascadeType.PERSIST, orphanRemoval = true)
+    
+    //@ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany (mappedBy = "examQuestion", fetch = FetchType.EAGER , cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List <ExamQuestionOption> examQuestionOptions;
 }

@@ -11,7 +11,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,10 +24,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "exams")
 
+@NamedQueries({
+        @NamedQuery(name = "exam.findByQuestionTypeAndCourse", 
+                query = "select distinct e from Exam e inner join e.examQuestions eq "
+                        + "where e.publicationDate is not null "
+                        + "and e.course.id=:idCourse and eq.type in (:questionType1,:questionType2)")
+})
+        
 @SuperBuilder
 @Getter
 @Setter
@@ -69,13 +81,21 @@ public class Exam extends IdentityIntId {
     private LocalDate deadline;
     
     @NotNull
-    @ManyToOne (fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne (fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Course course;
     
     @NotNull
-    @ManyToOne (fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne (fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Consultant consultant;
 
-    @OneToMany (mappedBy = "exam", fetch = FetchType.LAZY , cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OrderBy("position")
+    @OneToMany (mappedBy = "exam", fetch = FetchType.EAGER , cascade = CascadeType.PERSIST, orphanRemoval = true)
+    //@ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Fetch (FetchMode.SELECT) //Hibernate propietary but avoids duplication.Default FetchMode.JOIN duplicate rows 
     private List<ExamQuestion> examQuestions;
 }

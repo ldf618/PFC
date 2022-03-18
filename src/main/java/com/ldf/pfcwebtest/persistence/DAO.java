@@ -2,8 +2,11 @@ package com.ldf.pfcwebtest.persistence;
 
 import com.ldf.pfcwebtest.persistence.util.JPAUtil;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -107,7 +110,7 @@ public abstract class DAO<T> {
             tq.setParameter(k.toString(), v);
         });       
         
-        List<T> result = em.createNamedQuery(namedQuery, modelClass).getResultList();
+        List<T> result = tq.getResultList();
         JPAUtil.endTransaction(em);
         return result;
     }
@@ -199,8 +202,12 @@ public abstract class DAO<T> {
                 predicates.add(builder.equal(root.get((SingularAttribute) k), v));
             } else if (k instanceof Path) {
                 predicates.add(builder.equal((Path) k, v));
-            } else {
-                predicates.add(builder.equal(root.get((String) k), v));
+            } else if(k instanceof String){
+               //predicates.add(builder.equal(root.get((String) k), v));
+                Path path=root;                
+                String[] parts = ((String)k).split("\\.");
+                for (String s: parts) path=path.get(s);
+                predicates.add(builder.equal(path, v));
             }
         }
         );
