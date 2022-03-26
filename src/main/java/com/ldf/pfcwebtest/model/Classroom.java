@@ -61,7 +61,7 @@ public class Classroom extends IdentityIntId{
             when Classroom is persisted students will be persisted due to cascade ALL
             and table relation classroom_user will be inserted. 
             The other way round, if we made Student the owner of the relationship 
-            when classroom is persisted table user_classroom will not be inserted
+            when classroom is persisted table user_classroom will not be inserted  
         */
         @ManyToMany(/*mappedBy="classrooms",*/cascade = CascadeType.ALL) 
         private List<Student> students;
